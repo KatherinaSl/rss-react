@@ -1,14 +1,8 @@
 import { Component } from 'react';
 import './card.css';
+import { BookSeries } from '../data/interfaces';
 
-interface BookSeriesCardProps {
-  title: string;
-  publishedYearFrom: number | null;
-  publishedYearTo: number | null;
-  numberOfBooks: number | null;
-}
-
-class Card extends Component<BookSeriesCardProps> {
+class Card extends Component<BookSeries> {
   render() {
     const { title, publishedYearFrom, publishedYearTo, numberOfBooks } =
       this.props;

@@ -1,30 +1,13 @@
 import { Component, FormEvent, ReactNode } from 'react';
 import Card from '../card/Card';
 import './searchInput.css';
-import './loading.css';
-
-interface Properties {
-  text?: string;
-}
-
-interface SearchInputState {
-  searchTerm: string;
-  data: BookSeriesSearchRequest[] | null;
-  loading: boolean;
-  error: string | null;
-}
-
-interface BookSeriesSearchRequest {
-  title: string;
-  publishedYearFrom: number | null;
-  publishedYearTo: number | null;
-  numberOfBooksFrom: number | null;
-  numberOfBooks: number | null;
-  yearFrom: number | null;
-  yearTo: number | null;
-  miniseries: boolean;
-  ebookSeries: boolean;
-}
+import './loadingSpiner.css';
+import {
+  BookSeries,
+  BookSeriesResponse,
+  Properties,
+  SearchInputState,
+} from '../data/interfaces';
 
 class SearchInput extends Component<Properties, SearchInputState> {
   constructor(props: Properties) {
@@ -33,27 +16,22 @@ class SearchInput extends Component<Properties, SearchInputState> {
 
     this.state = {
       searchTerm: savedSearchTerm,
-      data: null,
       loading: false,
-      error: null,
     };
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(`on change ${event.target.value}`);
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ searchTerm: event.target.value });
   };
 
-  onSubmit(event: FormEvent) {
+  onSubmit(event: FormEvent): void {
     event.preventDefault();
 
     const { searchTerm } = this.state;
+    const url = this.props.searchUrl;
 
     this.setState({ loading: true });
     localStorage.setItem('SEARCH_TERM', searchTerm);
-
-    const url = 'https://stapi.co/api/v1/rest/bookSeries/search?pageNumber=0';
-    // const url = 'https://stapi.co/api/v1/rest/bookSeries/search';
 
     fetch(url, {
       method: 'POST',
@@ -62,11 +40,10 @@ class SearchInput extends Component<Properties, SearchInputState> {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-      .then((response) => response.json())
+      .then((response): Promise<BookSeriesResponse> => response.json())
       .then((data) => {
-        const filteredData = data.bookSeries.filter(
-          (bookSeries: BookSeriesSearchRequest) =>
-            bookSeries.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const filteredData = data.bookSeries.filter((bookSeries: BookSeries) =>
+          bookSeries.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         this.setState({ data: filteredData, loading: false });
@@ -74,6 +51,9 @@ class SearchInput extends Component<Properties, SearchInputState> {
       .catch((error) => {
         console.error('Error fetching data:', error);
         this.setState({ error: 'Failed to fetch data', loading: false });
+        this.setState(() => {
+          throw new Error('Asynchronous error: Fetch failed');
+        });
       });
   }
 
@@ -101,14 +81,8 @@ class SearchInput extends Component<Properties, SearchInputState> {
         {data && !loading && (
           <div className="cards">
             {data.length > 0 ? (
-              data.map((bookSeries: BookSeriesSearchRequest, index: number) => (
-                <Card
-                  key={index}
-                  title={bookSeries.title}
-                  publishedYearFrom={bookSeries.publishedYearFrom}
-                  publishedYearTo={bookSeries.publishedYearTo}
-                  numberOfBooks={bookSeries.numberOfBooks}
-                />
+              data.map((bookSeries: BookSeries, index: number) => (
+                <Card key={index} {...bookSeries} />
               ))
             ) : (
               <p>No book series found for the given search term.</p>

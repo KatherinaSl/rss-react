@@ -17,14 +17,16 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* display: flex;
+}
+
+.main-wrapper {
+  display: flex;
   flex-direction: column;
-  
+  justify-content: center;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh; */
-
-  /* justify-content: center; */
+  min-height: 100vh;
+  gap: 20px;
 }
 
 @media (prefers-color-scheme: light) {
