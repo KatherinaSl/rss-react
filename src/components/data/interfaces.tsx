@@ -30,4 +30,5 @@ export interface BookSeriesResponse {
 
 export interface Properties {
   searchUrl: string;
+  // onSumbit:
 }

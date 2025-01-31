@@ -12,9 +12,6 @@ class App extends Component {
       <div className="main-wrapper">
         <ErrorBoundary>
           <SearchInput searchUrl={URL_API} />
-        </ErrorBoundary>
-
-        <ErrorBoundary>
           <ThrowButton />
         </ErrorBoundary>
       </div>

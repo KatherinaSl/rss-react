@@ -8,6 +8,7 @@ import {
   Properties,
   SearchInputState,
 } from '../data/interfaces';
+import ErrorMessage from '../error/ErrorMessage';
 
 class SearchInput extends Component<Properties, SearchInputState> {
   constructor(props: Properties) {
@@ -20,6 +21,10 @@ class SearchInput extends Component<Properties, SearchInputState> {
     };
   }
 
+  componentDidMount(): void {
+    this.fetchData();
+  }
+
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ searchTerm: event.target.value });
   };
@@ -27,6 +32,10 @@ class SearchInput extends Component<Properties, SearchInputState> {
   onSubmit(event: FormEvent): void {
     event.preventDefault();
 
+    this.fetchData();
+  }
+
+  fetchData() {
     const { searchTerm } = this.state;
     const url = this.props.searchUrl;
 
@@ -38,6 +47,7 @@ class SearchInput extends Component<Properties, SearchInputState> {
       body: new URLSearchParams({ title: searchTerm }),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        // 'Content-Type': 'application/json',
       },
     })
       .then((response): Promise<BookSeriesResponse> => response.json())
@@ -48,17 +58,14 @@ class SearchInput extends Component<Properties, SearchInputState> {
 
         this.setState({ data: filteredData, loading: false });
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
+      .catch((error: Error) => {
         this.setState({ error: 'Failed to fetch data', loading: false });
-        this.setState(() => {
-          throw new Error('Asynchronous error: Fetch failed');
-        });
+        console.error('Error caught in SearchInput:', error);
       });
   }
 
   render(): ReactNode {
-    const { searchTerm, data, loading } = this.state;
+    const { searchTerm, data, loading, error } = this.state;
     return (
       <div className="search">
         <h1>Star Track Books Series:</h1>
@@ -78,7 +85,9 @@ class SearchInput extends Component<Properties, SearchInputState> {
           </div>
         )}
 
-        {data && !loading && (
+        {error && !loading && <ErrorMessage message={error} />}
+
+        {data && !loading && !error && (
           <div className="cards">
             {data.length > 0 ? (
               data.map((bookSeries: BookSeries, index: number) => (
