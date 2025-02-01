@@ -13,8 +13,13 @@ export interface ErrorBoundaryProps {
 
 export interface ErrorBoundaryState {
   hasError: boolean;
-  error: Error | null;
-  errorInfo: React.ErrorInfo | null;
+  error?: Error;
+  errorInfo?: React.ErrorInfo;
+}
+
+export interface ErrorMessageProps {
+  message?: string;
+  resetError?: () => void;
 }
 
 export interface SearchInputState {
@@ -28,7 +33,6 @@ export interface BookSeriesResponse {
   bookSeries: BookSeries[];
 }
 
-export interface Properties {
+export interface SearchInputProperties {
   searchUrl: string;
-  // onSumbit:
 }

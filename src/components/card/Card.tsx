@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './card.css';
-import { BookSeries } from '../data/interfaces';
+import { BookSeries } from '../../interfaces/interfaces';
 
 class Card extends Component<BookSeries> {
   render() {
