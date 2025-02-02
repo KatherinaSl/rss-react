@@ -1,7 +1,6 @@
 import { Component, ReactNode } from 'react';
 import SearchInput from './components/searchInput/SearchInput';
 import ErrorBoundary from './components/error/ErrorBoundary';
-import './index.css';
 import ThrowErrorButton from './components/button/ThrowErrorButton';
 import { URL_API } from './constants/constants';
 
