@@ -1,33 +1,27 @@
-import { Component } from 'react';
 import './card.css';
-import { BookSeries } from '../../interfaces/interfaces';
+import {
+  BookSeries,
+  BookSeriesDetailes as BookSeriesDetails,
+} from '../../interfaces/interfaces';
 
-class Card extends Component<BookSeries> {
-  render() {
-    const { title, publishedYearFrom, publishedYearTo, numberOfBooks } =
-      this.props;
+export default function Card(props: BookSeries) {
+  const { title, publishedYearFrom, publishedYearTo, numberOfBooks } = props;
 
-    return (
-      <div className="card">
-        <h4>{title}</h4>
-        {publishedYearFrom && (
-          <p>
-            <strong>Published Year From:</strong> {publishedYearFrom}
-          </p>
-        )}
-        {publishedYearTo && (
-          <p>
-            <strong>Published Year To:</strong> {publishedYearTo}
-          </p>
-        )}
-        {numberOfBooks && (
-          <p>
-            <strong>Number of Books:</strong> {numberOfBooks}
-          </p>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="card">
+      <h4>{title}</h4>
+      <BooksDetails label="Published Year From" value={publishedYearFrom} />
+      <BooksDetails label="Published Year To" value={publishedYearTo} />
+      <BooksDetails label="Number of Books" value={numberOfBooks} />
+    </div>
+  );
 }
 
-export default Card;
+function BooksDetails({ label, value }: BookSeriesDetails) {
+  if (!value) return null;
+  return (
+    <p>
+      <strong>{label}:</strong> {value}
+    </p>
+  );
+}

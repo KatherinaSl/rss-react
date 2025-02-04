@@ -7,6 +7,11 @@ export interface BookSeries {
   numberOfBooks?: number;
 }
 
+export interface BookSeriesDetailes {
+  label: string;
+  value?: number;
+}
+
 export interface ErrorBoundaryProps {
   children: ReactNode;
 }
@@ -24,13 +29,24 @@ export interface ErrorMessageProps {
 
 export interface SearchInputState {
   searchTerm: string;
-  data?: BookSeries[];
+  data: BookSeries[];
   loading: boolean;
   error?: string;
 }
 
+export interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
+}
+
 export interface BookSeriesResponse {
   bookSeries: BookSeries[];
+  page: Page;
 }
 
 export interface SearchInputProperties {

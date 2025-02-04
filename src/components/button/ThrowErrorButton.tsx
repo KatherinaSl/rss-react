@@ -1,19 +1,13 @@
-import { Component, ReactNode } from 'react';
+import { useCallback } from 'react';
 
-class ThrowErrorButton extends Component {
-  private handleClick() {
-    this.setState(() => {
-      throw new Error('This is a test error!');
-    });
-  }
+export default function ThrowErrorButton() {
+  const handleClick = useCallback(() => {
+    throw new Error('This is a test error!');
+  }, []);
 
-  render(): ReactNode {
-    return (
-      <button onClick={this.handleClick.bind(this)} className="error-button">
-        Click to Throw Error
-      </button>
-    );
-  }
+  return (
+    <button onClick={handleClick} className="error-button">
+      Click to Throw Error
+    </button>
+  );
 }
-
-export default ThrowErrorButton;
