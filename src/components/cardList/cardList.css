@@ -1,0 +1,17 @@
+.cards {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  flex: 1 1 50%;
+}
+
+.cards a {
+  flex: 1 1 calc(33.33% - 1rem);
+  justify-items: center;
+}
+
+.cards > * {
+  text-decoration: none;
+}

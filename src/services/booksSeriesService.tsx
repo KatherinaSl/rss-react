@@ -2,10 +2,7 @@ import {
   GetBookSeriesResponse,
   SearchBookSeriesResponse,
 } from '../interfaces/interfaces';
-
-const BASE_URL = 'https://stapi.co/api/v1/rest/bookSeries';
-const SEARCH = 'search';
-const DEFAULT_PAGE_SIZE = 8;
+import { BASE_URL, DEFAULT_PAGE_SIZE, SEARCH } from '../constants/constants';
 
 export function searchBooksSeries(
   title: string,

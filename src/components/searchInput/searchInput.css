@@ -14,17 +14,15 @@ h1 {
 
 .books-information {
   display: flex;
-  gap: 20px;
-}
-
-.cards {
-  display: flex;
+  gap: 2rem;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
-
-  width: 70vw;
 }
+
+.books-information:has(.sidebar-wrapper) {
+  justify-content: flex-start;
+}
+
 
 input {
   margin: 15px;

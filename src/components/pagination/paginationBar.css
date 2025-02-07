@@ -18,7 +18,7 @@
   border-radius: 5px;
   font-size: 20px;
   text-decoration: none;
-  color: white;
+  color: #fff;
 }
 
 .pagination-link:hover {
@@ -48,6 +48,6 @@
 .pagination-page:hover,
 .pagination-page.active {
   background-color: #646cff;
-  border-color: white;
-  color: white;
+  border-color: #fff;
+  color: #fff;
 }

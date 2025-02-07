@@ -1,3 +1,4 @@
+import './cardList.css';
 import { Outlet } from 'react-router';
 import { BookSeries, CardListProperties } from '../../interfaces/interfaces';
 import Card from '../card/Card';

@@ -1,14 +1,13 @@
 import { ReactNode } from 'react';
 
-export interface SearchInputState {
-  searchTerm: string;
-  data: BookSeries[];
-  loading: boolean;
-  error?: string;
-}
-
-export interface SearchInputProperties {
-  searchUrl: string;
+interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
 }
 
 export interface SearchBookSeriesResponse {
@@ -37,16 +36,6 @@ export interface Book {
 export interface BookSeriesDetails {
   label: string;
   value?: number | string;
-}
-
-export interface Page {
-  pageNumber: number;
-  pageSize: number;
-  numberOfElements: number;
-  totalElements: number;
-  totalPages: number;
-  firstPage: boolean;
-  lastPage: boolean;
 }
 
 export interface ErrorBoundaryProps {
