@@ -1,3 +1,6 @@
+import { Outlet, useParams } from 'react-router';
+import { SEARCH_TERM } from '../../constants/constants';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import { BookSeriesResponse } from '../../interfaces/interfaces';
 import searchBooksSeries from '../../services/booksSeriesService';
 import CardList from '../cardList/CardList';
@@ -8,55 +11,44 @@ import './searchInput.css';
 import { useEffect, useState } from 'react';
 
 export default function SearchInput() {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('SEARCH_TERM') || ''
-  );
+  const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
   const [response, setResponse] = useState<BookSeriesResponse>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
+  const { pid } = useParams();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event.target.value, false);
   };
 
-  //todo duplicated code, to fix
-  useEffect(() => {
-    const term = localStorage.getItem('SEARCH_TERM');
+  function fetchData(pageNumber: number = 0) {
+    console.log(`fetch be page: ${pageNumber}`);
     setLoading(true);
-    searchBooksSeries(term ? term : '')
-      .then((response) => setResponse(response))
+    searchBooksSeries(searchTerm, pageNumber)
+      .then((response) => {
+        setResponse(response);
+      })
       .catch((error: Error) => {
         setError(error);
         console.error('Error caught in SearchInput:', error);
       })
       .finally(() => setLoading(false));
+  }
+
+  //todo | dependency list issue??? maybe use custom hook
+  //TODO  | where pid is from router (in dependencies), and search term is from LS inside hook
+  useEffect(() => {
+    console.log('useEffect hook');
+    fetchData(pid ? Number(pid) - 1 : 0);
+    //todo remove suppression
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //todo useActionState???
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setSearchTerm(searchTerm.trim());
-    localStorage.setItem('SEARCH_TERM', searchTerm.trim());
-    setLoading(true);
-    searchBooksSeries(searchTerm)
-      .then((response) => setResponse(response))
-      .catch((error: Error) => {
-        setError(error);
-        console.error('Error caught in SearchInput:', error);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  const onPageChange = (pageNumber: number) => {
-    const term = localStorage.getItem('SEARCH_TERM');
-    setLoading(true);
-    searchBooksSeries(term ? term : '', pageNumber)
-      .then((response) => setResponse(response))
-      .catch((error: Error) => {
-        setError(error);
-        console.error('Error caught in SearchInput:', error);
-      })
-      .finally(() => setLoading(false));
+    fetchData();
   };
 
   const renderForm = () => {
@@ -83,9 +75,10 @@ export default function SearchInput() {
 
       {error && !loading && <ErrorMessage message={error.message} />}
 
-      {response && response.page.numberOfElements > 0 && (
-        <PaginationBar page={response.page} onPageChange={onPageChange} />
+      {!error && !loading && response && response.page.numberOfElements > 0 && (
+        <PaginationBar page={response.page} onPageChange={fetchData} />
       )}
+      <Outlet />
     </div>
   );
 }

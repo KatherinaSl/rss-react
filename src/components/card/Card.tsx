@@ -13,10 +13,13 @@ export default function Card(props: BookSeries) {
       <BooksDetails label="Published Year From" value={publishedYearFrom} />
       <BooksDetails label="Published Year To" value={publishedYearTo} />
       <BooksDetails label="Number of Books" value={numberOfBooks} />
+      {/* <Link to={`/page/1/card/${1}`}>To details</Link> */}
+      {/* todo useLocation */}
     </div>
   );
 }
 
+//todo refactor
 function BooksDetails({ label, value }: BookSeriesDetails) {
   if (!value) return null;
   return (

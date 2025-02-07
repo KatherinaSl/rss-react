@@ -1,12 +1,13 @@
 import './paginationBar.css';
 import { Page } from '../../interfaces/interfaces';
+import { Link } from 'react-router';
 
-interface PaginationBarInterface {
+interface PaginationBarProps {
   page: Page;
   onPageChange: (pageNumber: number) => void;
 }
 
-export default function PaginationBar(props: PaginationBarInterface) {
+export default function PaginationBar(props: PaginationBarProps) {
   const page = props.page;
   const totalPages = Math.ceil(page.totalElements / page.pageSize);
 
@@ -20,33 +21,40 @@ export default function PaginationBar(props: PaginationBarInterface) {
 
   return (
     <div className="pagination">
-      <button
-        className="pagination-button"
+      <Link
+        to={`/page/${page.pageNumber}`}
+        className="pagination-link"
+        aria-disabled={`${page.firstPage}`}
         onClick={() => props.onPageChange(page.pageNumber - 1)}
-        disabled={page.firstPage}
       >
         {'<'}
-      </button>
+      </Link>
 
       <div className="pagination-pages">
         {generatePageNumbers().map((displayNumber) => (
-          <div
+          <Link
             key={displayNumber}
-            className={`pagination-page ${page.pageNumber === displayNumber - 1 ? 'active' : ''}`}
-            onClick={() => props.onPageChange(displayNumber - 1)}
+            to={`/page/${displayNumber}`}
+            className="pagination-link"
           >
-            {displayNumber}
-          </div>
+            <div
+              className={`pagination-page ${page.pageNumber === displayNumber - 1 ? 'active' : ''}`}
+              onClick={() => props.onPageChange(displayNumber - 1)}
+            >
+              {displayNumber}
+            </div>
+          </Link>
         ))}
       </div>
 
-      <button
-        className="pagination-button"
+      <Link
+        to={`/page/${page.pageNumber}`}
+        className="pagination-link"
+        aria-disabled={`${page.lastPage}`}
         onClick={() => props.onPageChange(page.pageNumber + 1)}
-        disabled={page.lastPage}
       >
         {'>'}
-      </button>
+      </Link>
     </div>
   );
 }
