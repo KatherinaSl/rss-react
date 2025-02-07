@@ -12,11 +12,18 @@ h1 {
   text-align: center;
 }
 
+.books-information {
+  display: flex;
+  gap: 20px;
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+
+  width: 70vw;
 }
 
 input {

@@ -1,6 +1,5 @@
 import SearchInput from './components/searchInput/SearchInput';
 import ErrorBoundary from './components/error/ErrorBoundary';
-import ThrowErrorButton from './components/button/ThrowErrorButton';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
 import ErrorPage from './components/error/ErrorPage';
 import CardDetails from './components/cardDetails/CardDetails';
@@ -20,7 +19,6 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <ThrowErrorButton />
     </ErrorBoundary>
   );
 }

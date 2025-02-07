@@ -22,12 +22,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return (
-        <ErrorMessage
-          message={this.state.error?.message}
-          resetError={() => this.setState({ hasError: false })}
-        />
-      );
+      return <ErrorMessage message={this.state.error?.message} />;
     }
     return this.props.children;
   }

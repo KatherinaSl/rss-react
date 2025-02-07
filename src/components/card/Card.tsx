@@ -1,20 +1,25 @@
 import './card.css';
-import {
-  BookSeries,
-  BookSeriesDetailes as BookSeriesDetails,
-} from '../../interfaces/interfaces';
+import { BookSeries, BookSeriesDetails } from '../../interfaces/interfaces';
+import { Link, useParams } from 'react-router';
 
 export default function Card(props: BookSeries) {
-  const { title, publishedYearFrom, publishedYearTo, numberOfBooks } = props;
+  const { uid, title, publishedYearFrom, publishedYearTo, numberOfBooks } =
+    props;
+
+  let { pid } = useParams();
+
+  if (!pid) {
+    pid = '1';
+  }
 
   return (
     <div className="card">
-      <h4>{title}</h4>
-      <BooksDetails label="Published Year From" value={publishedYearFrom} />
-      <BooksDetails label="Published Year To" value={publishedYearTo} />
-      <BooksDetails label="Number of Books" value={numberOfBooks} />
-      {/* <Link to={`/page/1/card/${1}`}>To details</Link> */}
-      {/* todo useLocation */}
+      <Link to={`/page/${pid}/card/${uid}`}>
+        <h4>{title}</h4>
+        <BooksDetails label="Published Year From" value={publishedYearFrom} />
+        <BooksDetails label="Published Year To" value={publishedYearTo} />
+        <BooksDetails label="Number of Books" value={numberOfBooks} />
+      </Link>
     </div>
   );
 }

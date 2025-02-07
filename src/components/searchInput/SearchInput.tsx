@@ -1,8 +1,8 @@
-import { Outlet, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { SEARCH_TERM } from '../../constants/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { BookSeriesResponse } from '../../interfaces/interfaces';
-import searchBooksSeries from '../../services/booksSeriesService';
+import { SearchBookSeriesResponse } from '../../interfaces/interfaces';
+import { searchBooksSeries } from '../../services/booksSeriesService';
 import CardList from '../cardList/CardList';
 import ErrorMessage from '../error/ErrorMessage';
 import PaginationBar from '../pagination/PaginationBar';
@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 export default function SearchInput() {
   const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
-  const [response, setResponse] = useState<BookSeriesResponse>();
+  const [response, setResponse] = useState<SearchBookSeriesResponse>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const { pid } = useParams();
@@ -78,7 +78,6 @@ export default function SearchInput() {
       {!error && !loading && response && response.page.numberOfElements > 0 && (
         <PaginationBar page={response.page} onPageChange={fetchData} />
       )}
-      <Outlet />
     </div>
   );
 }
