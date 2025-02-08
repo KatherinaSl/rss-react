@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/vitest';
 describe('Spinner', () => {
   it('should render the Spinner component', () => {
     const { container } = render(<Spinner />);
-    const spinner = container.querySelector('spinner');
-    expect(spinner).not.toBeNull;
+    const spinner = container.querySelector('.spinner');
+    expect(spinner).not.toBeNull();
   });
 });
