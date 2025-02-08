@@ -1,7 +1,7 @@
 import BooksSeriesSearch from './components/searchInput/BooksSeriesSearch';
 import ErrorBoundary from './components/error/ErrorBoundary';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
-import ErrorPage from './components/error/ErrorPage';
+import ErrorNotFound from './components/error/ErrorNotFound';
 import CardDetails from './components/cardDetails/CardDetails';
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
             >
               <Route index element={<CardDetails />} />
             </Route>
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorNotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
