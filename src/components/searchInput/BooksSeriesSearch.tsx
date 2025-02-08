@@ -71,7 +71,9 @@ export default function BooksSeriesSearch() {
       {renderForm()}
 
       {loading && <Spinner />}
-      {response && !loading && !error && <CardList data={response}></CardList>}
+      {response && !loading && !error && (
+        <CardList bookSeries={response.bookSeries}></CardList>
+      )}
 
       {error && !loading && <ErrorMessage message={error.message} />}
 

@@ -10,6 +10,10 @@ interface Page {
   lastPage: boolean;
 }
 
+export interface CardListProperties {
+  bookSeries: BookSeries[];
+}
+
 export interface SearchBookSeriesResponse {
   bookSeries: BookSeries[];
   page: Page;
@@ -50,10 +54,6 @@ export interface ErrorBoundaryState {
 
 export interface ErrorMessageProps {
   message?: string;
-}
-
-export interface CardListProperties {
-  data: SearchBookSeriesResponse;
 }
 
 export interface PaginationBarProps {

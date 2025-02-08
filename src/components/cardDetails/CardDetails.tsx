@@ -8,8 +8,7 @@ import BooksDetails from '../booksDetails/BooksDetails';
 
 export default function CardDetails() {
   const [loading, setLoading] = useState(false);
-  const { cardId } = useParams();
-  const { pid } = useParams();
+  const { cardId, pid } = useParams();
   const [details, setDetails] = useState<BookSeries>();
   const cardDetailsRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,6 +35,23 @@ export default function CardDetails() {
     }
   }, [cardId]);
 
+  const renderBooksInfo = () => {
+    return (
+      <div className="book-information">
+        {details?.books?.length !== 0 ? (
+          details?.books?.map((book: Book, index: number) => (
+            <div key={index} className="infoItem">
+              <BooksDetails label="Title" value={book.title} />
+              <BooksDetails label="Published Year" value={book.publishedYear} />
+            </div>
+          ))
+        ) : (
+          <p>There is no additional information about this book series</p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="sidebar-wrapper">
       <div className="sidebar" ref={cardDetailsRef} onClick={handleInside}>
@@ -48,23 +64,7 @@ export default function CardDetails() {
             Information about <p>{details?.title}</p>
           </h2>
         )}
-        {!loading && (
-          <div className="book-information">
-            {details?.books?.length !== 0 ? (
-              details?.books?.map((book: Book, index: number) => (
-                <div key={index} className="infoItem">
-                  <BooksDetails label="Title" value={book.title} />
-                  <BooksDetails
-                    label="Published Year"
-                    value={book.publishedYear}
-                  />
-                </div>
-              ))
-            ) : (
-              <p>There is no additional information about this book series</p>
-            )}
-          </div>
-        )}
+        {!loading && renderBooksInfo()}
       </div>
 
       <div onClick={handleOutside} className="overlay"></div>

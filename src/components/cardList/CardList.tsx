@@ -4,7 +4,7 @@ import { BookSeries, CardListProperties } from '../../interfaces/interfaces';
 import Card from '../card/Card';
 
 export default function CardList(props: CardListProperties) {
-  const data = props.data.bookSeries;
+  const data = props.bookSeries;
   return (
     <div className="books-information">
       <div className="cards">
