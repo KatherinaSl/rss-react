@@ -7,10 +7,10 @@ import CardList from '../cardList/CardList';
 import ErrorMessage from '../error/ErrorMessage';
 import PaginationBar from '../pagination/PaginationBar';
 import Spinner from '../spinner/Spinner';
-import './searchInput.css';
+import './booksSeriesSearch.css';
 import { useEffect, useState } from 'react';
 
-export default function SearchInput() {
+export default function BooksSeriesSearch() {
   const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
   const [response, setResponse] = useState<SearchBookSeriesResponse>();
   const [loading, setLoading] = useState(false);
