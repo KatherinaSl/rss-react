@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-//maybe customize use effect?
 export default function useLocalStorage(
   lsKey: string
 ): [string, (newValue: string, saveToLs?: boolean) => void] {

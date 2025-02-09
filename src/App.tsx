@@ -1,4 +1,4 @@
-import BooksSeriesSearch from './components/searchInput/BooksSeriesSearch';
+import BooksSeriesSearch from './components/bookSeriesSearch/BooksSeriesSearch';
 import ErrorBoundary from './components/error/ErrorBoundary';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
 import ErrorNotFound from './components/error/ErrorNotFound';

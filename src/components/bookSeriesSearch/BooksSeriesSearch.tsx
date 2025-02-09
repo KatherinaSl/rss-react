@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { SEARCH_TERM } from '../../constants/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { SearchBookSeriesResponse } from '../../interfaces/interfaces';
@@ -8,51 +8,56 @@ import ErrorMessage from '../error/ErrorMessage';
 import PaginationBar from '../pagination/PaginationBar';
 import Spinner from '../spinner/Spinner';
 import './booksSeriesSearch.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function BooksSeriesSearch() {
   const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
   const [response, setResponse] = useState<SearchBookSeriesResponse>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
+  const isLoadedRef = useRef(false);
   const { pid } = useParams();
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value, false);
   };
 
-  function fetchData(pageNumber: number = 0) {
-    console.log(`fetch be page: ${pageNumber}`);
-    setLoading(true);
-    searchBooksSeries(searchTerm, pageNumber)
-      .then((response) => {
-        setResponse(response);
-      })
-      .catch((error: Error) => {
-        setError(error);
-        console.error('Error caught in SearchInput:', error);
-      })
-      .finally(() => setLoading(false));
-  }
+  const fetchData = useCallback(
+    (pageNumber: number = 0) => {
+      console.log(`fetch be page: ${pageNumber}`);
+      setLoading(true);
+      searchBooksSeries(searchTerm, pageNumber)
+        .then((response) => {
+          setResponse(response);
+        })
+        .catch((error: Error) => {
+          setError(error);
+          console.error('Error caught in SearchInput:', error);
+        })
+        .finally(() => setLoading(false));
+    },
+    [searchTerm]
+  );
 
-  //todo | dependency list issue??? maybe use custom hook
-  //TODO  | where pid is from router (in dependencies), and search term is from LS inside hook
   useEffect(() => {
-    console.log('useEffect hook');
+    if (isLoadedRef.current) {
+      return;
+    }
+    isLoadedRef.current = true;
     fetchData(pid ? Number(pid) - 1 : 0);
-    //todo remove suppression
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData, pid]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setSearchTerm(searchTerm.trim());
     fetchData();
+    navigate('/');
   };
 
-  const renderForm = () => {
-    return (
+  return (
+    <div className="search-section">
+      <h1>Star Track Books Series Search:</h1>
       <form action="" onSubmit={onSubmit}>
         <input
           type="text"
@@ -62,23 +67,17 @@ export default function BooksSeriesSearch() {
         />
         <input type="submit" value="Search" />
       </form>
-    );
-  };
-
-  return (
-    <div className="search-section">
-      <h1>Star Track Books Series Search:</h1>
-      {renderForm()}
 
       {loading && <Spinner />}
+      {error && <ErrorMessage message={error.message} />}
+
       {response && !loading && !error && (
-        <CardList bookSeries={response.bookSeries}></CardList>
-      )}
-
-      {error && !loading && <ErrorMessage message={error.message} />}
-
-      {!error && !loading && response && response.page.numberOfElements > 0 && (
-        <PaginationBar page={response.page} onPageChange={fetchData} />
+        <>
+          <CardList bookSeries={response.bookSeries}></CardList>
+          {response.page.numberOfElements > 0 && (
+            <PaginationBar page={response.page} onPageChange={fetchData} />
+          )}
+        </>
       )}
     </div>
   );
