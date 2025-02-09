@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import Card from '../../components/card/Card';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import prepareFetchResponse from '../utils/fetchUtils';
-import { bookSeriesOne } from '../utils/mockData';
+import { simpleBookSeriesDetails } from '../utils/mockData';
 import CardDetails from '../../components/cardDetails/CardDetails';
 import { BASE_URL } from '../../constants/constants';
 
@@ -47,7 +47,10 @@ describe('Card', () => {
   });
 
   it('should open CardDetails on click and trigger additional API call', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesOne);
+    const mockFetchResponse = prepareFetchResponse(
+      200,
+      simpleBookSeriesDetails
+    );
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
     const uid = '567';

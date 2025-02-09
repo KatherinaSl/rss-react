@@ -1,13 +1,17 @@
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { fireEvent, render, screen } from '@testing-library/react';
 
+const STORED_KEY = 'storedKey';
+const NEW_VALUE = 'newValue';
+const STORED_VALUE = 'storedValue';
+
 function TestComponent() {
-  const [value, setValue] = useLocalStorage('storedKey');
+  const [value, setValue] = useLocalStorage(STORED_KEY);
 
   return (
     <div>
       <span>{value}</span>
-      <button onClick={() => setValue('newValue')}>Set Value</button>
+      <button onClick={() => setValue(NEW_VALUE)}>Set Value</button>
     </div>
   );
 }
@@ -22,11 +26,11 @@ describe('useLocaleStorage', () => {
     setItemSpy.mockClear();
   });
   it('should get item from Local Storage', () => {
-    localStorage.setItem('storedKey', 'storedValue');
+    localStorage.setItem(STORED_KEY, STORED_VALUE);
 
     render(<TestComponent />);
 
-    expect(localStorage.getItem).toHaveBeenCalledWith('storedKey');
+    expect(localStorage.getItem).toHaveBeenCalledWith(STORED_KEY);
   });
 
   it('should save item to Local Storage', () => {
@@ -34,6 +38,6 @@ describe('useLocaleStorage', () => {
 
     const button = screen.getByRole('button');
     fireEvent.click(button);
-    expect(localStorage.setItem).toHaveBeenCalledWith('storedKey', 'newValue');
+    expect(localStorage.setItem).toHaveBeenCalledWith(STORED_KEY, NEW_VALUE);
   });
 });

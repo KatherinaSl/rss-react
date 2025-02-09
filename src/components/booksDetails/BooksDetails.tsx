@@ -1,6 +1,6 @@
-import { BookSeriesDetails } from '../../interfaces/interfaces';
+import { BookSeriesDetailsProps } from '../../interfaces/interfaces';
 
-export default function BooksDetails({ label, value }: BookSeriesDetails) {
+export default function BooksDetails({ label, value }: BookSeriesDetailsProps) {
   if (!value) return null;
   return (
     <p>

@@ -3,7 +3,8 @@ import '@testing-library/jest-dom/vitest';
 import BooksSeriesSearch from '../../components/bookSeriesSearch/BooksSeriesSearch';
 import { MemoryRouter } from 'react-router';
 import prepareFetchResponse from '../utils/fetchUtils';
-import { bookSeriesResponseOne } from '../utils/mockData';
+import { bookSeriesResponse } from '../utils/mockData';
+import { SEARCH_TERM } from '../../constants/constants';
 
 describe('BooksSeriesSearch', () => {
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
@@ -21,7 +22,7 @@ describe('BooksSeriesSearch', () => {
   });
 
   it('should render the page with Book Series Cards', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponseOne);
+    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
     render(
@@ -37,7 +38,7 @@ describe('BooksSeriesSearch', () => {
   });
 
   it('should save search tearm to local storage', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponseOne);
+    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
     vi.mocked(fetch).mockResolvedValue(mockFetchResponse as Response);
 
     render(
@@ -55,11 +56,11 @@ describe('BooksSeriesSearch', () => {
 
     fireEvent.input(input, { target: { value: 'test' } });
     fireEvent.click(submit);
-    expect(localStorage.setItem).toHaveBeenCalledWith('SEARCH_TERM', 'test');
+    expect(localStorage.setItem).toHaveBeenCalledWith(SEARCH_TERM, 'test');
   });
 
   it('should get search term from local storage', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponseOne);
+    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
     vi.mocked(fetch).mockResolvedValue(mockFetchResponse as Response);
 
     render(
@@ -71,6 +72,6 @@ describe('BooksSeriesSearch', () => {
     await waitFor(() =>
       expect(screen.getByText('TestBookSeries1')).toBeVisible()
     );
-    expect(localStorage.getItem).toHaveBeenCalledWith('SEARCH_TERM');
+    expect(localStorage.getItem).toHaveBeenCalledWith(SEARCH_TERM);
   });
 });

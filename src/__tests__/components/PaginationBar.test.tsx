@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import PaginationBar from '../../components/pagination/PaginationBar';
-import { firstPage, lastPage, page } from '../utils/mockData';
+import { firstPage, lastPage, defaultPage } from '../utils/mockData';
 
 const dummyOnPageChage = (page: number) => page++;
 
@@ -14,7 +14,7 @@ describe('Pagination Bar', () => {
     const onClick = vi.fn();
     render(
       <MemoryRouter>
-        <PaginationBar page={page} onPageChange={onClick} />
+        <PaginationBar page={defaultPage} onPageChange={onClick} />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');

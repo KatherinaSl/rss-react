@@ -3,7 +3,15 @@ import '@testing-library/jest-dom/vitest';
 import CardDetails from '../../components/cardDetails/CardDetails';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import prepareFetchResponse from '../utils/fetchUtils';
-import { bookSeriesOne, emptyBookSeries } from '../utils/mockData';
+import { simpleBookSeriesDetails } from '../utils/mockData';
+
+const emptyBookSeries = {
+  bookSeries: {
+    uid: '123',
+    title: 'TestBookSeries',
+    books: [],
+  },
+};
 
 describe('CardDetailes', () => {
   beforeEach(() => {
@@ -15,7 +23,10 @@ describe('CardDetailes', () => {
   });
 
   it('should render spinner in the Card Details component', () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesOne);
+    const mockFetchResponse = prepareFetchResponse(
+      200,
+      simpleBookSeriesDetails
+    );
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
     render(
@@ -33,7 +44,10 @@ describe('CardDetailes', () => {
   });
 
   it('should render Card Details component', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesOne);
+    const mockFetchResponse = prepareFetchResponse(
+      200,
+      simpleBookSeriesDetails
+    );
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
     render(
@@ -53,7 +67,10 @@ describe('CardDetailes', () => {
   });
 
   it('should hide Card Details on button press', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesOne);
+    const mockFetchResponse = prepareFetchResponse(
+      200,
+      simpleBookSeriesDetails
+    );
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
     render(

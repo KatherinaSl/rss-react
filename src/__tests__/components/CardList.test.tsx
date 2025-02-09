@@ -2,14 +2,10 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import CardList from '../../components/cardList/CardList';
 import { MemoryRouter } from 'react-router';
+import { bookSeries } from '../utils/mockData';
 import { BookSeries } from '../../interfaces/interfaces';
 
-const bookSeries = [
-  { uid: '123', title: 'TestSeries1' },
-  { uid: '345', title: 'TestSeries2' },
-];
-
-const emptyBookSeries: BookSeries[] = [];
+export const emptyBookSeries: BookSeries[] = [];
 
 describe('CardList', () => {
   it('should render correct number of cards on page', () => {

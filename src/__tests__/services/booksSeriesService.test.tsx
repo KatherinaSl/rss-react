@@ -4,24 +4,7 @@ import {
   searchBooksSeries,
 } from '../../services/booksSeriesService';
 import prepareFetchResponse from '../utils/fetchUtils';
-
-const fullResponse = {
-  bookSeries: [
-    {
-      uid: 'Test1',
-      title: 'Book series1',
-    },
-  ],
-  page: {
-    pageNumber: 1,
-    pageSize: 5,
-    numberOfElements: 5,
-    totalElements: 5,
-    totalPages: 1,
-    firstPage: true,
-    lastPage: true,
-  },
-};
+import { bookSeriesSearchResponse, firstBook } from '../utils/mockData';
 
 describe('booksSeriesService.searchBooksSeries', () => {
   beforeEach(() => {
@@ -37,7 +20,10 @@ describe('booksSeriesService.searchBooksSeries', () => {
     const pageNumber = 0;
     const url = `${BASE_URL}/${SEARCH}?pageSize=${DEFAULT_PAGE_SIZE}&pageNumber=${pageNumber}`;
 
-    const mockFetchResponse = prepareFetchResponse(200, fullResponse);
+    const mockFetchResponse = prepareFetchResponse(
+      200,
+      bookSeriesSearchResponse
+    );
 
     vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
 
@@ -51,7 +37,7 @@ describe('booksSeriesService.searchBooksSeries', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       })
     );
-    expect(result).toEqual(fullResponse);
+    expect(result).toEqual(bookSeriesSearchResponse);
   });
 
   it('should throw an error when the server responds with an error', async () => {
@@ -64,13 +50,6 @@ describe('booksSeriesService.searchBooksSeries', () => {
     await expect(searchBooksSeries(title, pageNumber)).rejects.toThrowError();
   });
 });
-
-const firstBook = {
-  bookSeries: {
-    uid: 'Test1',
-    title: 'Book series1',
-  },
-};
 
 describe('booksSeriesService.getBookSeries', () => {
   it('should fetch data successfully and return a result', async () => {

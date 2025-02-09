@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-interface Page {
+export interface Page {
   pageNumber: number;
   pageSize: number;
   numberOfElements: number;
@@ -8,19 +8,6 @@ interface Page {
   totalPages: number;
   firstPage: boolean;
   lastPage: boolean;
-}
-
-export interface CardListProperties {
-  bookSeries: BookSeries[];
-}
-
-export interface SearchBookSeriesResponse {
-  bookSeries: BookSeries[];
-  page: Page;
-}
-
-export interface GetBookSeriesResponse {
-  bookSeries: BookSeries;
 }
 
 export interface BookSeries {
@@ -37,7 +24,20 @@ export interface Book {
   publishedYear?: number;
 }
 
-export interface BookSeriesDetails {
+export interface SearchBookSeriesResponse {
+  bookSeries: BookSeries[];
+  page: Page;
+}
+
+export interface GetBookSeriesResponse {
+  bookSeries: BookSeries;
+}
+
+export interface CardListProperties {
+  bookSeries: BookSeries[];
+}
+
+export interface BookSeriesDetailsProps {
   label: string;
   value?: number | string;
 }

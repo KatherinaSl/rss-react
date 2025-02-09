@@ -1,4 +1,4 @@
-export const page = {
+export const defaultPage = {
   pageNumber: 2,
   pageSize: 3,
   numberOfElements: 3,
@@ -28,7 +28,7 @@ export const lastPage = {
   lastPage: true,
 };
 
-export const bookSeriesOne = {
+export const simpleBookSeriesDetails = {
   bookSeries: {
     uid: '12345',
     title: 'TestBookSeries',
@@ -41,7 +41,7 @@ export const bookSeriesOne = {
   },
 };
 
-export const emptyBookSeries = {
+export const emptyBookSeriesDetails = {
   bookSeries: {
     uid: '12345',
     title: 'TestBookSeries',
@@ -49,7 +49,7 @@ export const emptyBookSeries = {
   },
 };
 
-export const bookSeriesResponseOne = {
+export const bookSeriesResponse = {
   bookSeries: [
     {
       uid: '12345',
@@ -62,3 +62,33 @@ export const bookSeriesResponseOne = {
   ],
   page: firstPage,
 };
+
+export const bookSeriesSearchResponse = {
+  bookSeries: [
+    {
+      uid: 'Test1',
+      title: 'Book series1',
+    },
+  ],
+  page: {
+    pageNumber: 1,
+    pageSize: 5,
+    numberOfElements: 5,
+    totalElements: 5,
+    totalPages: 1,
+    firstPage: true,
+    lastPage: true,
+  },
+};
+
+export const firstBook = {
+  bookSeries: {
+    uid: 'Test1',
+    title: 'Book series1',
+  },
+};
+
+export const bookSeries = [
+  { uid: '123', title: 'TestSeries1' },
+  { uid: '345', title: 'TestSeries2' },
+];
