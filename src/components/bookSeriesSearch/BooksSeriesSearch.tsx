@@ -25,7 +25,6 @@ export default function BooksSeriesSearch() {
 
   const fetchData = useCallback(
     (pageNumber: number = 0) => {
-      console.log(`fetch be page: ${pageNumber}`);
       setLoading(true);
       searchBooksSeries(searchTerm, pageNumber)
         .then((response) => {
@@ -58,14 +57,15 @@ export default function BooksSeriesSearch() {
   return (
     <div className="search-section">
       <h1>Star Track Books Series Search:</h1>
-      <form action="" onSubmit={onSubmit}>
+      <form action="" onSubmit={onSubmit} aria-label="form">
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleChange}
+          data-testid="search-input"
         />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" data-testid="search-submit" />
       </form>
 
       {loading && <Spinner />}

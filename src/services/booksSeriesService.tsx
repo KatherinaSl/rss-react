@@ -17,18 +17,17 @@ export function searchBooksSeries(
     if (!response.ok) {
       throw new Error(`Server answered with error code ${response.status}`);
     }
-    return response.json(); //todo check type
+    return response.json();
   });
 }
 
 export function getBookSeries(uid: string): Promise<GetBookSeriesResponse> {
-  console.log(uid);
   const url = `${BASE_URL}?uid=${uid}`;
 
   return fetch(url).then((response): Promise<GetBookSeriesResponse> => {
     if (!response.ok) {
       throw new Error(`Server answered with error code ${response.status}`);
     }
-    return response.json(); //todo check type
+    return response.json();
   });
 }

@@ -43,7 +43,7 @@ export default function PaginationBar(props: PaginationBarProps) {
       </div>
 
       <Link
-        to={`/page/${page.pageNumber}`}
+        to={`/page/${page.pageNumber + 2}`}
         className="pagination-link"
         aria-disabled={`${page.lastPage}`}
         onClick={() => props.onPageChange(page.pageNumber + 1)}

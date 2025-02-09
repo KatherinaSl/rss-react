@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
-// import { MemoryRouter, Route, Routes } from 'react-router';
 import CardList from '../../components/cardList/CardList';
 import { MemoryRouter } from 'react-router';
 import { BookSeries } from '../../interfaces/interfaces';

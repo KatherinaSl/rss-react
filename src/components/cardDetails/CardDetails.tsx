@@ -56,7 +56,7 @@ export default function CardDetails() {
     <div className="sidebar-wrapper">
       <div className="sidebar" ref={cardDetailsRef} onClick={handleInside}>
         <Link to={`/page/${pid}`} className="hide-button">
-          Hide detailes
+          Hide details
         </Link>
         {loading && <Spinner />}
         {!loading && (
