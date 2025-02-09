@@ -9,7 +9,7 @@
   align-items: center;
   z-index: 1000;
   opacity: 0.5;
-  background-color: rgba(0, 0, 0, 50%);
+  background-color: #dcdcdc;
 }
 
 .spinner {

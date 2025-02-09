@@ -1,33 +1,22 @@
-import { Component } from 'react';
 import './card.css';
 import { BookSeries } from '../../interfaces/interfaces';
+import { Link, useParams } from 'react-router';
+import BooksDetails from '../booksDetails/BooksDetails';
 
-class Card extends Component<BookSeries> {
-  render() {
-    const { title, publishedYearFrom, publishedYearTo, numberOfBooks } =
-      this.props;
+export default function Card(props: BookSeries) {
+  const { uid, title, publishedYearFrom, publishedYearTo, numberOfBooks } =
+    props;
 
-    return (
+  const { pid } = useParams();
+
+  return (
+    <Link to={`/page/${pid ? pid : 1}/card/${uid}`}>
       <div className="card">
         <h4>{title}</h4>
-        {publishedYearFrom && (
-          <p>
-            <strong>Published Year From:</strong> {publishedYearFrom}
-          </p>
-        )}
-        {publishedYearTo && (
-          <p>
-            <strong>Published Year To:</strong> {publishedYearTo}
-          </p>
-        )}
-        {numberOfBooks && (
-          <p>
-            <strong>Number of Books:</strong> {numberOfBooks}
-          </p>
-        )}
+        <BooksDetails label="Published Year From" value={publishedYearFrom} />
+        <BooksDetails label="Published Year To" value={publishedYearTo} />
+        <BooksDetails label="Number of Books" value={numberOfBooks} />
       </div>
-    );
-  }
+    </Link>
+  );
 }
-
-export default Card;

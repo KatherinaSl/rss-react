@@ -1,18 +1,27 @@
-import { Component, ReactNode } from 'react';
-import SearchInput from './components/searchInput/SearchInput';
+import BooksSeriesSearch from './components/bookSeriesSearch/BooksSeriesSearch';
 import ErrorBoundary from './components/error/ErrorBoundary';
-import ThrowErrorButton from './components/button/ThrowErrorButton';
-import { URL_API } from './constants/constants';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
+import ErrorNotFound from './components/error/ErrorNotFound';
+import CardDetails from './components/cardDetails/CardDetails';
 
-class App extends Component {
-  render(): ReactNode {
-    return (
-      <ErrorBoundary>
-        <SearchInput searchUrl={URL_API} />
-        <ThrowErrorButton />
-      </ErrorBoundary>
-    );
-  }
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} element={<Outlet />}>
+            <Route index element={<BooksSeriesSearch />} />
+            <Route path={'page/:pid'} element={<BooksSeriesSearch />} />
+            <Route
+              path={'page/:pid/card/:cardId'}
+              element={<BooksSeriesSearch />}
+            >
+              <Route index element={<CardDetails />} />
+            </Route>
+            <Route path="*" element={<ErrorNotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
+  );
 }
-
-export default App;

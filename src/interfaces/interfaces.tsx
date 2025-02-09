@@ -1,10 +1,45 @@
 import { ReactNode } from 'react';
 
+export interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
+}
+
 export interface BookSeries {
+  uid: string;
   title: string;
   publishedYearFrom?: number;
   publishedYearTo?: number;
   numberOfBooks?: number;
+  books?: Book[];
+}
+
+export interface Book {
+  title: string;
+  publishedYear?: number;
+}
+
+export interface SearchBookSeriesResponse {
+  bookSeries: BookSeries[];
+  page: Page;
+}
+
+export interface GetBookSeriesResponse {
+  bookSeries: BookSeries;
+}
+
+export interface CardListProperties {
+  bookSeries: BookSeries[];
+}
+
+export interface BookSeriesDetailsProps {
+  label: string;
+  value?: number | string;
 }
 
 export interface ErrorBoundaryProps {
@@ -19,20 +54,9 @@ export interface ErrorBoundaryState {
 
 export interface ErrorMessageProps {
   message?: string;
-  resetError?: () => void;
 }
 
-export interface SearchInputState {
-  searchTerm: string;
-  data?: BookSeries[];
-  loading: boolean;
-  error?: string;
-}
-
-export interface BookSeriesResponse {
-  bookSeries: BookSeries[];
-}
-
-export interface SearchInputProperties {
-  searchUrl: string;
+export interface PaginationBarProps {
+  page: Page;
+  onPageChange: (pageNumber: number) => void;
 }

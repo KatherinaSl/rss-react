@@ -12,11 +12,17 @@ h1 {
   text-align: center;
 }
 
-.cards {
+.books-information {
   display: flex;
+  gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.books-information:has(.sidebar-wrapper) {
+  justify-content: flex-start;
+}
+
 
 input {
   margin: 15px;
