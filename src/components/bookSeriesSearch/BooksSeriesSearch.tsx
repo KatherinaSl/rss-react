@@ -8,7 +8,8 @@ import ErrorMessage from '../error/ErrorMessage';
 import PaginationBar from '../pagination/PaginationBar';
 import Spinner from '../spinner/Spinner';
 import './booksSeriesSearch.css';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 
 export default function BooksSeriesSearch() {
   const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
@@ -22,6 +23,8 @@ export default function BooksSeriesSearch() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value, false);
   };
+
+  const { theme, handleThemeChange } = useContext(ThemeContext);
 
   const fetchData = useCallback(
     (pageNumber: number = 0) => {
@@ -55,8 +58,14 @@ export default function BooksSeriesSearch() {
   };
 
   return (
-    <div className="search-section">
-      <h1>Star Track Books Series Search:</h1>
+    <div className={`search-section ${theme}`}>
+      <div>
+        <h1>Star Track Books Series Search:</h1>
+        <button onClick={handleThemeChange} className="button-mode">
+          {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        </button>
+      </div>
+
       <form action="" onSubmit={onSubmit} aria-label="form">
         <input
           type="text"
