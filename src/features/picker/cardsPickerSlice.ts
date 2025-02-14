@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { BookSeries } from '../../interfaces/interfaces';
+import { RootState } from '../../app/store';
 
 export interface CardState {
   pickedValues: BookSeries[];
@@ -26,6 +27,13 @@ export const cardsPickerSlice = createSlice({
     },
   },
 });
+
+export const selectCheckbox = (state: RootState) =>
+  state.picker.pickedValues.length;
+
+export const selectCheckboxById = (state: RootState, id: string): boolean =>
+  state.picker.pickedValues.filter((bookSeries) => bookSeries.uid === id)
+    .length > 0;
 
 export const { save, remove, removeAll } = cardsPickerSlice.actions;
 

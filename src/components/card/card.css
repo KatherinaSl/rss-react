@@ -9,6 +9,7 @@
 }
 
 .card {
+  z-index: 22;
   background-color: var(--card-background-color);
   border-radius: 10px;
   border: 2px solid var(--card-background-color);

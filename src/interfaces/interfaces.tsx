@@ -55,7 +55,7 @@ export interface ErrorBoundaryState {
 }
 
 export interface ErrorMessageProps {
-  error: FetchBaseQueryError | SerializedError;
+  error?: FetchBaseQueryError | SerializedError;
   message?: string;
 }
 

@@ -3,8 +3,7 @@ import { BookSeries } from '../../interfaces/interfaces';
 import { Link, useParams } from 'react-router';
 import BooksDetails from '../booksDetails/BooksDetails';
 import Checkbox from '../checkbox/Checkbox';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { useDispatch } from 'react-redux';
 import { remove, save } from '../../features/picker/cardsPickerSlice';
 
 export default function Card(props: BookSeries) {
@@ -13,11 +12,6 @@ export default function Card(props: BookSeries) {
 
   const { pid } = useParams();
   const dispatch = useDispatch();
-
-  const isSelected =
-    useSelector((state: RootState) => state.picker.pickedValues).filter(
-      (bookSeries) => bookSeries.uid === uid
-    ).length > 0;
 
   const onCheckboxClick = (isSelected: boolean) => {
     if (isSelected) {
@@ -29,7 +23,7 @@ export default function Card(props: BookSeries) {
 
   return (
     <div className="card">
-      <Checkbox initialValue={isSelected} onClick={onCheckboxClick} />
+      <Checkbox onClick={onCheckboxClick} id={uid} />
       <Link to={`/page/${pid ? pid : 1}/card/${uid}`}>
         <h4>{title}</h4>
         <BooksDetails label="Published Year From" value={publishedYearFrom} />

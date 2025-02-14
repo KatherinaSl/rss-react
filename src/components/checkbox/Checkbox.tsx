@@ -1,16 +1,18 @@
+import { useSelector } from 'react-redux';
 import './checkbox.css';
-import { useState } from 'react';
+import { RootState } from '../../app/store';
 
 export interface CheckboxProps {
-  initialValue: boolean;
+  id: string;
   onClick: (isChecked: boolean) => void;
 }
 
 export default function Checkbox(props: CheckboxProps) {
-  const [isChecked, setIsChecked] = useState(props.initialValue);
+  const isSelected = useSelector(
+    (state: RootState) => state.picker.pickedValues
+  ).some((bookSeries) => bookSeries.uid === props.id);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
     props.onClick(event.target.checked);
   };
   return (
@@ -18,7 +20,7 @@ export default function Checkbox(props: CheckboxProps) {
       <label className="checkbox-label">
         <input
           type="checkbox"
-          checked={isChecked}
+          checked={isSelected}
           className="checkbox-input"
           onChange={handleChange}
         />
