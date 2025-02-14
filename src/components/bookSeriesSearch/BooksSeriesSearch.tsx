@@ -1,22 +1,17 @@
 import { useNavigate, useParams } from 'react-router';
 import { SEARCH_TERM } from '../../constants/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { SearchBookSeriesResponse } from '../../interfaces/interfaces';
-import { searchBooksSeries } from '../../services/booksSeriesService';
 import CardList from '../cardList/CardList';
 import ErrorMessage from '../error/ErrorMessage';
-import PaginationBar from '../pagination/PaginationBar';
 import Spinner from '../spinner/Spinner';
 import './booksSeriesSearch.css';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import { useSearchBooksSeriesMutation } from '../../features/api/apiSlicer';
+import PaginationBar from '../pagination/PaginationBar';
 
 export default function BooksSeriesSearch() {
   const [searchTerm, setSearchTerm] = useLocalStorage(SEARCH_TERM);
-  const [response, setResponse] = useState<SearchBookSeriesResponse>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error>();
-  const isLoadedRef = useRef(false);
   const { pid } = useParams();
   const navigate = useNavigate();
 
@@ -26,35 +21,23 @@ export default function BooksSeriesSearch() {
 
   const { theme, handleThemeChange } = useContext(ThemeContext);
 
-  const fetchData = useCallback(
-    (pageNumber: number = 0) => {
-      setLoading(true);
-      searchBooksSeries(searchTerm, pageNumber)
-        .then((response) => {
-          setResponse(response);
-        })
-        .catch((error: Error) => {
-          setError(error);
-          console.error('Error caught in SearchInput:', error);
-        })
-        .finally(() => setLoading(false));
-    },
-    [searchTerm]
-  );
-
-  useEffect(() => {
-    if (isLoadedRef.current) {
-      return;
-    }
-    isLoadedRef.current = true;
-    fetchData(pid ? Number(pid) - 1 : 0);
-  }, [fetchData, pid]);
+  const [
+    mutate,
+    { isUninitialized, data, isLoading, isSuccess, isError, error },
+  ] = useSearchBooksSeriesMutation();
+  if (isUninitialized) {
+    mutate({ pageNumber: pid ? Number(pid) - 1 : 0, title: searchTerm });
+  }
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setSearchTerm(searchTerm.trim());
-    fetchData();
+    mutate({ pageNumber: pid ? Number(pid) - 1 : 0, title: searchTerm });
     navigate('/');
+  };
+
+  const onPageChange = (pageNumber: number = 0) => {
+    mutate({ pageNumber, title: searchTerm });
   };
 
   return (
@@ -77,14 +60,14 @@ export default function BooksSeriesSearch() {
         <input type="submit" value="Search" data-testid="search-submit" />
       </form>
 
-      {loading && <Spinner />}
-      {error && <ErrorMessage message={error.message} />}
+      {isLoading && <Spinner />}
+      {isError && <ErrorMessage error={error} />}
 
-      {response && !loading && !error && (
+      {isSuccess && !isLoading && !isError && (
         <>
-          <CardList bookSeries={response.bookSeries}></CardList>
-          {response.page.numberOfElements > 0 && (
-            <PaginationBar page={response.page} onPageChange={fetchData} />
+          <CardList bookSeries={data.bookSeries}></CardList>
+          {data.page.numberOfElements > 0 && (
+            <PaginationBar page={data.page} onPageChange={onPageChange} />
           )}
         </>
       )}

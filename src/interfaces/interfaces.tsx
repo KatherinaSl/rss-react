@@ -1,3 +1,5 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit/react';
 import { ReactNode } from 'react';
 
 export interface Page {
@@ -53,6 +55,7 @@ export interface ErrorBoundaryState {
 }
 
 export interface ErrorMessageProps {
+  error: FetchBaseQueryError | SerializedError;
   message?: string;
 }
 
