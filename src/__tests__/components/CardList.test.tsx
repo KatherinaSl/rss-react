@@ -1,15 +1,19 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import CardList from '../../components/cardList/CardList';
 import { MemoryRouter } from 'react-router';
-import { bookSeries } from '../utils/mockData';
+import renderWithProviders from '../utils/test-utils';
 import { BookSeries } from '../../interfaces/interfaces';
 
-export const emptyBookSeries: BookSeries[] = [];
+const emptyBookSeries: BookSeries[] = [];
+const bookSeries = [
+  { uid: '123', title: 'TestSeries1' },
+  { uid: '345', title: 'TestSeries2' },
+];
 
 describe('CardList', () => {
   it('should render correct number of cards on page', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <CardList bookSeries={bookSeries} />
       </MemoryRouter>
@@ -19,7 +23,7 @@ describe('CardList', () => {
   });
 
   it('should render correct page with 0 book series', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <CardList bookSeries={emptyBookSeries} />
       </MemoryRouter>

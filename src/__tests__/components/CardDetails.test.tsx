@@ -1,36 +1,13 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import CardDetails from '../../components/cardDetails/CardDetails';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import prepareFetchResponse from '../utils/fetchUtils';
-import { simpleBookSeriesDetails } from '../utils/mockData';
-
-const emptyBookSeries = {
-  bookSeries: {
-    uid: '123',
-    title: 'TestBookSeries',
-    books: [],
-  },
-};
+import renderWithProviders from '../utils/test-utils';
 
 describe('CardDetailes', () => {
-  beforeEach(() => {
-    globalThis.fetch = vi.fn();
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('should render spinner in the Card Details component', () => {
-    const mockFetchResponse = prepareFetchResponse(
-      200,
-      simpleBookSeriesDetails
-    );
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    render(
-      <MemoryRouter initialEntries={['/page/1/card/2']}>
+  it('should render spinner in the Card Details component', async () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/1/card/123']}>
         <Routes>
           <Route
             path="/page/:pid/card/:cardId"
@@ -44,14 +21,8 @@ describe('CardDetailes', () => {
   });
 
   it('should render Card Details component', async () => {
-    const mockFetchResponse = prepareFetchResponse(
-      200,
-      simpleBookSeriesDetails
-    );
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    render(
-      <MemoryRouter initialEntries={['/page/1/card/2']}>
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/1/card/123']}>
         <Routes>
           <Route
             path="/page/:pid/card/:cardId"
@@ -62,19 +33,13 @@ describe('CardDetailes', () => {
     );
 
     await waitFor(() => expect(screen.getByRole('heading')).toBeVisible());
-    expect(screen.getByText('TestBookSeries')).toBeInTheDocument();
-    expect(screen.getByText('test book')).toBeInTheDocument();
+    expect(screen.getByText('Test123')).toBeInTheDocument();
+    expect(screen.getByText('TestBook123')).toBeInTheDocument();
   });
 
   it('should hide Card Details on button press', async () => {
-    const mockFetchResponse = prepareFetchResponse(
-      200,
-      simpleBookSeriesDetails
-    );
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    render(
-      <MemoryRouter initialEntries={['/page/1/card/2']}>
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/1/card/123']}>
         <Routes>
           <Route
             path="/page/:pid/card/:cardId"
@@ -91,11 +56,8 @@ describe('CardDetailes', () => {
   });
 
   it('should render Card Details without books', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, emptyBookSeries);
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    render(
-      <MemoryRouter initialEntries={['/page/1/card/2']}>
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/1/card/400']}>
         <Routes>
           <Route
             path="/page/:pid/card/:cardId"
@@ -106,7 +68,7 @@ describe('CardDetailes', () => {
     );
 
     await waitFor(() => expect(screen.getByRole('heading')).toBeVisible());
-    expect(screen.getByText('TestBookSeries')).toBeInTheDocument();
+    expect(screen.getByText('Test400')).toBeInTheDocument();
     expect(
       screen.getByText(/There is no additional information/i)
     ).toBeInTheDocument();

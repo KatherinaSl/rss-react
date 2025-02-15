@@ -2,9 +2,38 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import PaginationBar from '../../components/pagination/PaginationBar';
-import { firstPage, lastPage, defaultPage } from '../utils/mockData';
 
-const dummyOnPageChage = (page: number) => page++;
+const defaultPage = {
+  pageNumber: 2,
+  pageSize: 3,
+  numberOfElements: 3,
+  totalElements: 15,
+  totalPages: 5,
+  firstPage: false,
+  lastPage: false,
+};
+
+const firstPage = {
+  pageNumber: 1,
+  pageSize: 3,
+  numberOfElements: 3,
+  totalElements: 15,
+  totalPages: 5,
+  firstPage: true,
+  lastPage: false,
+};
+
+const lastPage = {
+  pageNumber: 5,
+  pageSize: 3,
+  numberOfElements: 3,
+  totalElements: 15,
+  totalPages: 5,
+  firstPage: false,
+  lastPage: true,
+};
+
+const dummyOnPageChange = (page: number) => page++;
 
 describe('Pagination Bar', () => {
   afterEach(() => {
@@ -29,7 +58,7 @@ describe('Pagination Bar', () => {
   it('should render first page with disabled prev button', () => {
     render(
       <MemoryRouter>
-        <PaginationBar page={firstPage} onPageChange={dummyOnPageChage} />
+        <PaginationBar page={firstPage} onPageChange={dummyOnPageChange} />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');
@@ -39,7 +68,7 @@ describe('Pagination Bar', () => {
   it('should render last page with disabled next button', () => {
     render(
       <MemoryRouter>
-        <PaginationBar page={lastPage} onPageChange={dummyOnPageChage} />
+        <PaginationBar page={lastPage} onPageChange={dummyOnPageChange} />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');
@@ -53,7 +82,7 @@ describe('Pagination Bar', () => {
           <Route
             index
             element={
-              <PaginationBar page={lastPage} onPageChange={dummyOnPageChage} />
+              <PaginationBar page={lastPage} onPageChange={dummyOnPageChange} />
             }
           />
           <Route path="/page/2" element={<div>Success!</div>} />

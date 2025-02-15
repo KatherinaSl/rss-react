@@ -1,23 +1,13 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import Card from '../../components/card/Card';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import prepareFetchResponse from '../utils/fetchUtils';
-import { simpleBookSeriesDetails } from '../utils/mockData';
+import renderWithProviders from '../utils/test-utils';
 import CardDetails from '../../components/cardDetails/CardDetails';
-import { BASE_URL } from '../../constants/constants';
 
 describe('Card', () => {
-  beforeEach(() => {
-    globalThis.fetch = vi.fn();
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('should render valid card on default page', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Card uid={'123'} title={'Book'} />
       </MemoryRouter>
@@ -30,7 +20,7 @@ describe('Card', () => {
   });
 
   it('should render valid link on provided page', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter initialEntries={['/page/78']}>
         <Routes>
           <Route
@@ -47,14 +37,8 @@ describe('Card', () => {
   });
 
   it('should open CardDetails on click and trigger additional API call', async () => {
-    const mockFetchResponse = prepareFetchResponse(
-      200,
-      simpleBookSeriesDetails
-    );
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    const uid = '567';
-    render(
+    const uid = '123';
+    renderWithProviders(
       <MemoryRouter initialEntries={['/page/1']}>
         <Routes>
           <Route
@@ -73,8 +57,6 @@ describe('Card', () => {
     await waitFor(() =>
       expect(screen.getByText(/Information about/i)).toBeVisible()
     );
-
-    const url = `${BASE_URL}?uid=${uid}`;
-    expect(fetch).toHaveBeenCalledWith(url);
+    expect(screen.getByText(`TestBook${uid}`));
   });
 });
