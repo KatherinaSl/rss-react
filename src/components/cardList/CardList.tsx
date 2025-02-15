@@ -4,7 +4,7 @@ import { BookSeries, CardListProperties } from '../../interfaces/interfaces';
 import Card from '../card/Card';
 import { useSelector } from 'react-redux';
 import { selectCheckbox } from '../../features/picker/cardsPickerSlice';
-import Flyout from '../flyout/flyout';
+import Flyout from '../flyout/Flyout';
 
 export default function CardList(props: CardListProperties) {
   const data = props.bookSeries;

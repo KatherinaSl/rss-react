@@ -18,7 +18,10 @@ export interface BookSeries {
   publishedYearFrom?: number;
   publishedYearTo?: number;
   numberOfBooks?: number;
+  miniseries?: boolean;
+  eBookSeries?: boolean;
   books?: Book[];
+  url?: string;
 }
 
 export interface Book {

@@ -20,13 +20,25 @@ export const apiBookSeries = createApi({
         body: new URLSearchParams({ title }),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       }),
+      transformResponse: (
+        response: SearchBookSeriesResponse
+      ): SearchBookSeriesResponse => {
+        response.bookSeries.forEach(
+          (bookSeries) => (bookSeries.url = `${BASE_URL}?uid=${bookSeries.uid}`)
+        );
+
+        return response;
+      },
     }),
     getBookSeries: builder.query<BookSeries, string>({
       query: (uid) => ({
         url: `?uid=${uid}`,
       }),
-      transformResponse: (response: GetBookSeriesResponse) =>
-        response.bookSeries,
+      transformResponse: (response: GetBookSeriesResponse) => {
+        const bookSeries = response.bookSeries;
+        bookSeries.url = `${BASE_URL}?uid=${bookSeries.uid}`;
+        return bookSeries;
+      },
     }),
   }),
 });
