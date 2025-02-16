@@ -4,6 +4,7 @@ import Card from '../../components/card/Card';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import renderWithProviders from '../utils/test-utils';
 import CardDetails from '../../components/cardDetails/CardDetails';
+import { store } from '../../app/store';
 
 describe('Card', () => {
   it('should render valid card on default page', () => {
@@ -58,5 +59,31 @@ describe('Card', () => {
       expect(screen.getByText(/Information about/i)).toBeVisible()
     );
     expect(screen.getByText(`TestBook${uid}`));
+  });
+
+  it('should save or remove BookSeries from store', () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/78']}>
+        <Routes>
+          <Route
+            path="/page/:pid"
+            element={<Card uid={'567'} title={'Store Test'} />}
+          ></Route>
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+    const isStored = store
+      .getState()
+      .picker.pickedValues.some(
+        (bookSeries) => bookSeries.title === 'Store Test'
+      );
+    expect(isStored).toBeTruthy();
+    fireEvent.click(checkbox);
+
+    const isStoreEmpty = store.getState().picker.pickedValues.length === 0;
+    expect(isStoreEmpty).toBeTruthy();
   });
 });

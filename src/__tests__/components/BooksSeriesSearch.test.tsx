@@ -4,6 +4,7 @@ import BooksSeriesSearch from '../../components/bookSeriesSearch/BooksSeriesSear
 import { MemoryRouter } from 'react-router';
 import { SEARCH_TERM } from '../../constants/constants';
 import renderWithProviders from '../utils/test-utils';
+import { ThemeProvider } from '../../components/themeProvider/ThemeProvider';
 
 describe('BooksSeriesSearch', () => {
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
@@ -23,7 +24,6 @@ describe('BooksSeriesSearch', () => {
     );
 
     await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
-    screen.debug();
     expect(screen.getAllByRole('heading').length).toEqual(2);
   });
 
@@ -55,5 +55,20 @@ describe('BooksSeriesSearch', () => {
 
     await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
     expect(localStorage.getItem).toHaveBeenCalledWith(SEARCH_TERM);
+  });
+
+  it('should render the theme change button', async () => {
+    renderWithProviders(
+      <ThemeProvider>
+        <MemoryRouter>
+          <BooksSeriesSearch />
+        </MemoryRouter>
+      </ThemeProvider>
+    );
+
+    await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
+    const themeButton = screen.getByText(/Switch to light mode/i);
+    fireEvent.click(themeButton);
+    expect(screen.getByText(/Switch to dark mode/i)).toBeInTheDocument();
   });
 });
