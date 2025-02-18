@@ -1,5 +1,5 @@
 import { MouseEvent, useRef } from 'react';
-import { Book } from '../../interfaces/interfaces';
+import { Book } from '../../interfaces/models';
 import './cardDetails.css';
 import { Link, useNavigate, useParams } from 'react-router';
 import Spinner from '../spinner/Spinner';

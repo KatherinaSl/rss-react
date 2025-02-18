@@ -33,12 +33,11 @@ const lastPage = {
   lastPage: true,
 };
 
-const dummyOnPageChange = (page: number) => page++;
-
 describe('Pagination Bar', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
+
   it('should render correct number and destinations of page links', () => {
     const onClick = vi.fn();
     render(
@@ -56,34 +55,35 @@ describe('Pagination Bar', () => {
   });
 
   it('should render first page with disabled prev button', () => {
+    const onClick = vi.fn();
     render(
       <MemoryRouter>
-        <PaginationBar page={firstPage} onPageChange={dummyOnPageChange} />
+        <PaginationBar page={firstPage} onPageChange={onClick} />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');
-    expect(links.at(0)).toHaveAttribute('aria-disabled', 'true');
+    expect(links[0]).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('should render last page with disabled next button', () => {
+    const onClick = vi.fn();
     render(
       <MemoryRouter>
-        <PaginationBar page={lastPage} onPageChange={dummyOnPageChange} />
+        <PaginationBar page={lastPage} onPageChange={onClick} />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');
-    expect(links.at(links.length - 1)).toHaveAttribute('aria-disabled', 'true');
+    expect(links[links.length - 1]).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('should update url on page change', () => {
+    const onClick = vi.fn();
     render(
       <MemoryRouter>
         <Routes>
           <Route
             index
-            element={
-              <PaginationBar page={lastPage} onPageChange={dummyOnPageChange} />
-            }
+            element={<PaginationBar page={lastPage} onPageChange={onClick} />}
           />
           <Route path="/page/2" element={<div>Success!</div>} />
         </Routes>

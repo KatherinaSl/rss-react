@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import CardList from '../../components/cardList/CardList';
 import { MemoryRouter } from 'react-router';
 import renderWithProviders from '../utils/test-utils';
-import { BookSeries } from '../../interfaces/interfaces';
+import { BookSeries } from '../../interfaces/models';
 
 const emptyBookSeries: BookSeries[] = [];
 const bookSeries = [

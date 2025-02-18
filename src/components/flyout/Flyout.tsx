@@ -4,10 +4,7 @@ import { removeAll } from '../../features/picker/cardsPickerSlice';
 import { convertToCSV } from '../../utils/csvUtils';
 import { RootState } from '../../app/store';
 import { useRef } from 'react';
-
-interface FlyoutProps {
-  count: number;
-}
+import { FlyoutProps } from '../../interfaces/interfaces';
 
 export default function Flyout(props: FlyoutProps) {
   const dispatch = useDispatch();
@@ -19,20 +16,20 @@ export default function Flyout(props: FlyoutProps) {
   );
 
   const downloadHandler = () => {
-    const csvFile = convertToCSV(pickedValues);
-    const blob = new Blob([csvFile], { type: 'text/csv' });
+    const csvString = convertToCSV(pickedValues);
+    const blob = new Blob([csvString], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
 
     if (downloadLinkRef.current) {
       downloadLinkRef.current.href = url;
       downloadLinkRef.current.click();
-      URL.revokeObjectURL(url);
     }
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="flyout-component">
-      <p>{props.count} items selected</p>
+      <p>{`${props.count} items selected`}</p>
       <button className="unselect-button" onClick={unselectAllHandler}>
         Unselect All
       </button>

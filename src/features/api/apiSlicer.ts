@@ -4,7 +4,7 @@ import {
   BookSeries,
   GetBookSeriesResponse,
   SearchBookSeriesResponse,
-} from '../../interfaces/interfaces';
+} from '../../interfaces/models';
 
 export const apiBookSeries = createApi({
   reducerPath: 'api',

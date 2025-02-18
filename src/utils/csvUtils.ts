@@ -1,4 +1,4 @@
-import { BookSeries } from '../interfaces/interfaces';
+import { BookSeries } from '../interfaces/models';
 
 export const convertToCSV = (booksSeries: BookSeries[]) => {
   if (!booksSeries || booksSeries.length === 0) return '';

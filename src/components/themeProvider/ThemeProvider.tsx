@@ -1,11 +1,8 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import { ThemeProviderProps } from '../../interfaces/interfaces';
 
-interface PropsInterface {
-  children: ReactNode;
-}
-
-export const ThemeProvider = ({ children }: PropsInterface) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState('dark');
   const handleThemeChange = () => {
     const isCurrentDark = theme === 'dark';

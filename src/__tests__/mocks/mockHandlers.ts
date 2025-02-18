@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { BASE_URL, SEARCH } from '../../constants/constants';
-import { Page } from '../../interfaces/interfaces';
+import { Page } from '../../interfaces/models';
 
 export const handlers = [
   http.get(`${BASE_URL}`, ({ request }) => {
@@ -61,7 +61,7 @@ const createPage = (): Page => {
 const createBookSeries = (uid: string, title: string) => {
   return {
     uid,
-    title: title === '' ? 'EmptyTitle' : title,
+    title: title === '' ? 'BookSeriesTitle' : title,
     books: [{ title: `TestBook${uid}`, publishedYear: 1111 }],
   };
 };

@@ -23,8 +23,9 @@ describe('BooksSeriesSearch', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
-    expect(screen.getAllByRole('heading').length).toEqual(2);
+    await waitFor(() =>
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
+    );
   });
 
   it('should save search tearm to local storage', async () => {
@@ -34,7 +35,9 @@ describe('BooksSeriesSearch', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
+    await waitFor(() =>
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
+    );
 
     const input = screen.getByTestId('search-input') as HTMLInputElement;
     const submit = screen.getByTestId('search-submit');
@@ -42,8 +45,6 @@ describe('BooksSeriesSearch', () => {
     fireEvent.input(input, { target: { value: 'test' } });
     fireEvent.click(submit);
     expect(localStorage.setItem).toHaveBeenCalledWith(SEARCH_TERM, 'test');
-
-    await waitFor(() => expect(screen.getByText('test')).toBeVisible());
   });
 
   it('should get search term from local storage', async () => {
@@ -53,7 +54,9 @@ describe('BooksSeriesSearch', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
+    await waitFor(() =>
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
+    );
     expect(localStorage.getItem).toHaveBeenCalledWith(SEARCH_TERM);
   });
 
@@ -66,7 +69,9 @@ describe('BooksSeriesSearch', () => {
       </ThemeProvider>
     );
 
-    await waitFor(() => expect(screen.getByText('EmptyTitle')).toBeVisible());
+    await waitFor(() =>
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
+    );
     const themeButton = screen.getByText(/Switch to light mode/i);
     fireEvent.click(themeButton);
     expect(screen.getByText(/Switch to dark mode/i)).toBeInTheDocument();

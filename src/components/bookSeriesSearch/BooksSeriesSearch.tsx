@@ -25,14 +25,16 @@ export default function BooksSeriesSearch() {
     mutate,
     { isUninitialized, data, isLoading, isSuccess, isError, error },
   ] = useSearchBooksSeriesMutation();
+
+  const pageNumber = pid ? Number(pid) - 1 : 0;
   if (isUninitialized) {
-    mutate({ pageNumber: pid ? Number(pid) - 1 : 0, title: searchTerm });
+    mutate({ pageNumber, title: searchTerm });
   }
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setSearchTerm(searchTerm.trim());
-    mutate({ pageNumber: pid ? Number(pid) - 1 : 0, title: searchTerm });
+    mutate({ pageNumber, title: searchTerm });
     navigate('/');
   };
 

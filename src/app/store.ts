@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import pickerReducer from '../features/picker/cardsPickerSlice';
 import { apiBookSeries } from '../features/api/apiSlicer';
-// import { listenerMiddleware } from './listenerMiddleware';
 
 export const store = configureStore({
   reducer: {
@@ -10,12 +9,8 @@ export const store = configureStore({
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      //   .prepend(listenerMiddleware.middleware)
-      .concat(apiBookSeries.middleware),
+    getDefaultMiddleware().concat(apiBookSeries.middleware),
 });
-
-// setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppStore = typeof store;

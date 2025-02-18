@@ -14,16 +14,26 @@ export default function PaginationBar(props: PaginationBarProps) {
     return pageNumbers;
   };
 
+  function renderArrow(arrow: string, isForward: boolean) {
+    const destPageLink = isForward ? page.pageNumber + 2 : page.pageNumber;
+    const destPage = isForward ? page.pageNumber + 1 : page.pageNumber - 1;
+    const isArrowDisabled =
+      (page.lastPage && isForward) || (page.firstPage && !isForward);
+    return (
+      <Link
+        to={`/page/${destPageLink}`}
+        className="pagination-link"
+        aria-disabled={`${isArrowDisabled}`}
+        onClick={() => props.onPageChange(destPage)}
+      >
+        {arrow}
+      </Link>
+    );
+  }
+
   return (
     <div className="pagination">
-      <Link
-        to={`/page/${page.pageNumber}`}
-        className="pagination-link"
-        aria-disabled={`${page.firstPage}`}
-        onClick={() => props.onPageChange(page.pageNumber - 1)}
-      >
-        {'<'}
-      </Link>
+      {renderArrow('<', false)}
 
       <div className="pagination-pages">
         {generatePageNumbers().map((displayNumber) => (
@@ -42,14 +52,7 @@ export default function PaginationBar(props: PaginationBarProps) {
         ))}
       </div>
 
-      <Link
-        to={`/page/${page.pageNumber + 2}`}
-        className="pagination-link"
-        aria-disabled={`${page.lastPage}`}
-        onClick={() => props.onPageChange(page.pageNumber + 1)}
-      >
-        {'>'}
-      </Link>
+      {renderArrow('>', true)}
     </div>
   );
 }

@@ -1,44 +1,9 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit/react';
 import { ReactNode } from 'react';
+import { BookSeries, Page } from './models';
 
-export interface Page {
-  pageNumber: number;
-  pageSize: number;
-  numberOfElements: number;
-  totalElements: number;
-  totalPages: number;
-  firstPage: boolean;
-  lastPage: boolean;
-}
-
-export interface BookSeries {
-  uid: string;
-  title: string;
-  publishedYearFrom?: number;
-  publishedYearTo?: number;
-  numberOfBooks?: number;
-  miniseries?: boolean;
-  eBookSeries?: boolean;
-  books?: Book[];
-  url?: string;
-}
-
-export interface Book {
-  title: string;
-  publishedYear?: number;
-}
-
-export interface SearchBookSeriesResponse {
-  bookSeries: BookSeries[];
-  page: Page;
-}
-
-export interface GetBookSeriesResponse {
-  bookSeries: BookSeries;
-}
-
-export interface CardListProperties {
+export interface CardListProps {
   bookSeries: BookSeries[];
 }
 
@@ -65,4 +30,26 @@ export interface ErrorMessageProps {
 export interface PaginationBarProps {
   page: Page;
   onPageChange: (pageNumber: number) => void;
+}
+
+export interface CardState {
+  pickedValues: BookSeries[];
+}
+
+export interface ThemeContextProps {
+  theme: string;
+  handleThemeChange?: () => void;
+}
+
+export interface ThemeProviderProps {
+  children: ReactNode;
+}
+
+export interface FlyoutProps {
+  count: number;
+}
+
+export interface CheckboxProps {
+  id: string;
+  onClick: (isChecked: boolean) => void;
 }

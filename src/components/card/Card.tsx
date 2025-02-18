@@ -1,5 +1,5 @@
 import './card.css';
-import { BookSeries } from '../../interfaces/interfaces';
+import { BookSeries } from '../../interfaces/models';
 import { Link, useParams } from 'react-router';
 import BooksDetails from '../booksDetails/BooksDetails';
 import Checkbox from '../checkbox/Checkbox';

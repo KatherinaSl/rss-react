@@ -1,12 +1,13 @@
 import './cardList.css';
 import { Outlet } from 'react-router';
-import { BookSeries, CardListProperties } from '../../interfaces/interfaces';
+import { CardListProps } from '../../interfaces/interfaces';
 import Card from '../card/Card';
 import { useSelector } from 'react-redux';
 import { selectCheckbox } from '../../features/picker/cardsPickerSlice';
 import Flyout from '../flyout/Flyout';
+import { BookSeries } from '../../interfaces/models';
 
-export default function CardList(props: CardListProperties) {
+export default function CardList(props: CardListProps) {
   const data = props.bookSeries;
   const pickedItemsCount = useSelector(selectCheckbox);
 

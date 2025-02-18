@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom/vitest';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import renderWithProviders from '../utils/test-utils';
@@ -10,7 +11,6 @@ describe('Flyout', () => {
         <Flyout count={3} />
       </MemoryRouter>
     );
-
-    expect(screen.getByText('3 items selected'));
+    expect(screen.getByText('3 items selected')).toBeVisible();
   });
 });
