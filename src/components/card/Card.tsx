@@ -25,10 +25,12 @@ export default function Card(props: BookSeries) {
     <div className="card">
       <Checkbox onClick={onCheckboxClick} id={uid} />
       <Link to={`/page/${pid ? pid : 1}/card/${uid}`}>
-        <h4>{title}</h4>
-        <BooksDetails label="Published Year From" value={publishedYearFrom} />
-        <BooksDetails label="Published Year To" value={publishedYearTo} />
-        <BooksDetails label="Number of Books" value={numberOfBooks} />
+        <div className="card-info-container">
+          <h4>{title}</h4>
+          <BooksDetails label="Published Year From" value={publishedYearFrom} />
+          <BooksDetails label="Published Year To" value={publishedYearTo} />
+          <BooksDetails label="Number of Books" value={numberOfBooks} />
+        </div>
       </Link>
     </div>
   );

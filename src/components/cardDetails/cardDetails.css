@@ -1,9 +1,11 @@
 .light {
   --sidebar-background-color: #b5b6d1;
+  --overlay-background: rgba(0, 0, 0, 50%);
 }
 
 .dark {
   --sidebar-background-color: #d8e1e8;
+  --overlay-background: rgba(255, 255, 255, 0.4);
 }
 
 .sidebar-wrapper {
@@ -61,6 +63,7 @@
 }
 
 .overlay {
+  background-color: var(--overlay-background);
   position: fixed;
   top: 0;
   left: 0;
