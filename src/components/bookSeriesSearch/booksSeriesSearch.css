@@ -1,15 +1,39 @@
+.light {
+  --background: #eddcd2;
+  --text-color: #333333;
+  --button-background: #fff;
+  --input-text-background: #fff;
+  --button-border: transparent;
+  --button-hover-border: #4b9cd3;
+}
+
+.dark {
+  --background: #2f4550;
+  --text-color: #f5f5f5;
+  --button-background: #1a1a1a;
+  --input-text-background: #1a1a1a;
+  --text-color-placeholder: #f5f5f5;
+  --button-border: transparent;
+  --button-hover-border: #646cff;
+}
+
 .search-section {
+  background-color: var(--background);
+  color: var(--text-color);
+
+  justify-content: space-around;
   display: flex;
   flex-direction: column;
   place-items: center;
-  min-width: 320px;
-  min-height: 70vh;
+  min-width: 100vw;
+  min-height: 100vh;
 
   gap: 20px;
 }
 
 h1 {
   text-align: center;
+  color: var(--text-color);
 }
 
 .books-information {
@@ -23,7 +47,6 @@ h1 {
   justify-content: flex-start;
 }
 
-
 input {
   margin: 15px;
   padding: 5px;
@@ -34,7 +57,41 @@ input[type='text']:focus::placeholder {
   color: transparent;
 }
 
+input[type='text'] {
+  background-color: var(--input-text-background);
+  color: var(--text-color-placeholder);
+  border: 1px solid black;
+}
+
 input[type='submit']:focus,
 input[type='submit']:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input[type='submit'],
+.button-mode {
+  align-self: center;
+  color: var(--text-color);
+  border-radius: 8px;
+  border: 2px solid var(--button-border);
+  padding: 0.6em 1.2em;
+  margin: 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--button-background);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+input[type='submit']:hover,
+.button-mode:hover {
+  border-color: var(--button-hover-border);
+}
+
+.button-mode {
+  z-index: 22;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

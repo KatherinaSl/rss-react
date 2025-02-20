@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,9 +19,7 @@
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  height: 100%;
 }
 
 .main {
@@ -24,14 +27,12 @@ body {
   flex-direction: column;
   justify-content: center;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  min-width: 100vw;
   gap: 20px;
+  min-height: 100vh;
 }
 
-.error-button,
-.reset-button,
-input[type='submit'] {
+.error-button {
   align-self: center;
 
   border-radius: 8px;
@@ -46,20 +47,6 @@ input[type='submit'] {
   transition: border-color 0.25s;
 }
 
-.error-button:hover,
-input[type='submit']:hover {
+.error-button:hover {
   border-color: #646cff;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  input[type='submit'] {
-    background-color: #f9f9f9;
-  }
 }

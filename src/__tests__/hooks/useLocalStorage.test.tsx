@@ -25,6 +25,7 @@ describe('useLocaleStorage', () => {
     getItemSpy.mockClear();
     setItemSpy.mockClear();
   });
+
   it('should get item from Local Storage', () => {
     localStorage.setItem(STORED_KEY, STORED_VALUE);
 

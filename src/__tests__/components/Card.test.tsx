@@ -1,41 +1,34 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import Card from '../../components/card/Card';
 import { MemoryRouter, Route, Routes } from 'react-router';
-import prepareFetchResponse from '../utils/fetchUtils';
-import { simpleBookSeriesDetails } from '../utils/mockData';
+import renderWithProviders from '../utils/test-utils';
 import CardDetails from '../../components/cardDetails/CardDetails';
-import { BASE_URL } from '../../constants/constants';
+import { store } from '../../app/store';
 
 describe('Card', () => {
-  beforeEach(() => {
-    globalThis.fetch = vi.fn();
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
+  const uid = '123';
   it('should render valid card on default page', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Card uid={'123'} title={'Book'} />
+        <Card uid={uid} title={'Book'} />
       </MemoryRouter>
     );
     const link = screen.getByRole('link');
 
     expect(screen.getByRole('heading')).toHaveTextContent(/book/i);
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/page/1/card/123');
+    expect(link).toHaveAttribute('href', `/page/1/card/${uid}`);
   });
 
   it('should render valid link on provided page', () => {
-    render(
+    const uid = '567';
+    renderWithProviders(
       <MemoryRouter initialEntries={['/page/78']}>
         <Routes>
           <Route
             path="/page/:pid"
-            element={<Card uid={'567'} title={'Link Test'} />}
+            element={<Card uid={uid} title={'Link Test'} />}
           ></Route>
         </Routes>
       </MemoryRouter>
@@ -43,18 +36,12 @@ describe('Card', () => {
     const link = screen.getByRole('link');
 
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/page/78/card/567');
+    expect(link).toHaveAttribute('href', `/page/78/card/${uid}`);
   });
 
   it('should open CardDetails on click and trigger additional API call', async () => {
-    const mockFetchResponse = prepareFetchResponse(
-      200,
-      simpleBookSeriesDetails
-    );
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    const uid = '567';
-    render(
+    const uid = '123';
+    renderWithProviders(
       <MemoryRouter initialEntries={['/page/1']}>
         <Routes>
           <Route
@@ -73,8 +60,33 @@ describe('Card', () => {
     await waitFor(() =>
       expect(screen.getByText(/Information about/i)).toBeVisible()
     );
+    expect(screen.getByText(`TestBook${uid}`));
+  });
 
-    const url = `${BASE_URL}?uid=${uid}`;
-    expect(fetch).toHaveBeenCalledWith(url);
+  it('should save or remove BookSeries from store', () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/page/78']}>
+        <Routes>
+          <Route
+            path="/page/:pid"
+            element={<Card uid={'567'} title={'Store Test'} />}
+          ></Route>
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+    const isStored = store
+      .getState()
+      .picker.pickedValues.some(
+        (bookSeries) => bookSeries.title === 'Store Test'
+      );
+    expect(isStored).toBeTruthy();
+
+    fireEvent.click(checkbox);
+
+    const isStoreEmpty = store.getState().picker.pickedValues.length === 0;
+    expect(isStoreEmpty).toBeTruthy();
   });
 });

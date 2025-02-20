@@ -1,4 +1,7 @@
-import { BookSeriesDetailsProps } from '../../interfaces/interfaces';
+interface BookSeriesDetailsProps {
+  label: string;
+  value?: number | string;
+}
 
 export default function BooksDetails({ label, value }: BookSeriesDetailsProps) {
   if (!value) return null;

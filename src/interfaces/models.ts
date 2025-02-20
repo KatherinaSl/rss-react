@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export interface Page {
   pageNumber: number;
   pageSize: number;
@@ -16,7 +14,10 @@ export interface BookSeries {
   publishedYearFrom?: number;
   publishedYearTo?: number;
   numberOfBooks?: number;
+  miniseries?: boolean;
+  eBookSeries?: boolean;
   books?: Book[];
+  url?: string;
 }
 
 export interface Book {
@@ -31,32 +32,4 @@ export interface SearchBookSeriesResponse {
 
 export interface GetBookSeriesResponse {
   bookSeries: BookSeries;
-}
-
-export interface CardListProperties {
-  bookSeries: BookSeries[];
-}
-
-export interface BookSeriesDetailsProps {
-  label: string;
-  value?: number | string;
-}
-
-export interface ErrorBoundaryProps {
-  children: ReactNode;
-}
-
-export interface ErrorBoundaryState {
-  hasError: boolean;
-  error?: Error;
-  errorInfo?: React.ErrorInfo;
-}
-
-export interface ErrorMessageProps {
-  message?: string;
-}
-
-export interface PaginationBarProps {
-  page: Page;
-  onPageChange: (pageNumber: number) => void;
 }

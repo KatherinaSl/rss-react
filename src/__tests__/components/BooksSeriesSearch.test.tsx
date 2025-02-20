@@ -1,54 +1,42 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import BooksSeriesSearch from '../../components/bookSeriesSearch/BooksSeriesSearch';
 import { MemoryRouter } from 'react-router';
-import prepareFetchResponse from '../utils/fetchUtils';
-import { bookSeriesResponse } from '../utils/mockData';
 import { SEARCH_TERM } from '../../constants/constants';
+import renderWithProviders from '../utils/test-utils';
+import { ThemeProvider } from '../../components/themeProvider/ThemeProvider';
 
 describe('BooksSeriesSearch', () => {
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
-  beforeEach(() => {
-    globalThis.fetch = vi.fn();
-  });
-
   afterEach(() => {
-    vi.clearAllMocks();
     localStorage.clear();
     getItemSpy.mockClear();
     setItemSpy.mockClear();
   });
 
   it('should render the page with Book Series Cards', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
-    vi.mocked(fetch).mockResolvedValueOnce(mockFetchResponse as Response);
-
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <BooksSeriesSearch />
       </MemoryRouter>
     );
 
     await waitFor(() =>
-      expect(screen.getByText('TestBookSeries1')).toBeVisible()
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
     );
-    expect(screen.getAllByRole('heading').length).toEqual(3);
   });
 
   it('should save search tearm to local storage', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
-    vi.mocked(fetch).mockResolvedValue(mockFetchResponse as Response);
-
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <BooksSeriesSearch />
       </MemoryRouter>
     );
 
     await waitFor(() =>
-      expect(screen.getByText('TestBookSeries1')).toBeVisible()
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
     );
 
     const input = screen.getByTestId('search-input') as HTMLInputElement;
@@ -60,18 +48,32 @@ describe('BooksSeriesSearch', () => {
   });
 
   it('should get search term from local storage', async () => {
-    const mockFetchResponse = prepareFetchResponse(200, bookSeriesResponse);
-    vi.mocked(fetch).mockResolvedValue(mockFetchResponse as Response);
-
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <BooksSeriesSearch />
       </MemoryRouter>
     );
 
     await waitFor(() =>
-      expect(screen.getByText('TestBookSeries1')).toBeVisible()
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
     );
     expect(localStorage.getItem).toHaveBeenCalledWith(SEARCH_TERM);
+  });
+
+  it('should render the theme change button', async () => {
+    renderWithProviders(
+      <ThemeProvider>
+        <MemoryRouter>
+          <BooksSeriesSearch />
+        </MemoryRouter>
+      </ThemeProvider>
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText('BookSeriesTitle')).toBeVisible()
+    );
+    const themeButton = screen.getByText(/Switch to light mode/i);
+    fireEvent.click(themeButton);
+    expect(screen.getByText(/Switch to dark mode/i)).toBeInTheDocument();
   });
 });
