@@ -1,8 +1,12 @@
 import { useSelector } from 'react-redux';
 import './checkbox.css';
-import { CheckboxProps } from '../../interfaces/interfaces';
 import { selectIsBookInStore } from '../../features/picker/cardsPickerSlice';
 import { RootState } from '../../app/store';
+
+interface CheckboxProps {
+  id: string;
+  onClick: (isChecked: boolean) => void;
+}
 
 export default function Checkbox(props: CheckboxProps) {
   const isSelected = useSelector((state: RootState) =>

@@ -1,6 +1,11 @@
+import { Page } from '../../interfaces/models';
 import './paginationBar.css';
-import { PaginationBarProps } from '../../interfaces/interfaces';
 import { Link } from 'react-router';
+
+interface PaginationBarProps {
+  page: Page;
+  onPageChange: (pageNumber: number) => void;
+}
 
 export default function PaginationBar(props: PaginationBarProps) {
   const page = props.page;

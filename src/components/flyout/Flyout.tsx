@@ -4,7 +4,10 @@ import { removeAll } from '../../features/picker/cardsPickerSlice';
 import { convertToCSV } from '../../utils/csvUtils';
 import { RootState } from '../../app/store';
 import { useRef } from 'react';
-import { FlyoutProps } from '../../interfaces/interfaces';
+
+interface FlyoutProps {
+  count: number;
+}
 
 export default function Flyout(props: FlyoutProps) {
   const dispatch = useDispatch();

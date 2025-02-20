@@ -1,10 +1,16 @@
 import { Component, ReactNode } from 'react';
-import {
-  ErrorBoundaryProps,
-  ErrorBoundaryState,
-} from '../../interfaces/interfaces';
 import './error.css';
 import ErrorMessage from './ErrorMessage';
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+  errorInfo?: React.ErrorInfo;
+}
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {

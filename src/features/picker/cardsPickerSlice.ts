@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { CardState } from '../../interfaces/interfaces';
 import { RootState } from '../../app/store';
 import { BookSeries } from '../../interfaces/models';
+
+interface CardState {
+  pickedValues: BookSeries[];
+}
 
 const initialState: CardState = {
   pickedValues: [],

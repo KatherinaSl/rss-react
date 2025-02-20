@@ -34,6 +34,7 @@ export const apiBookSeries = createApi({
       query: (uid) => ({
         url: `?uid=${uid}`,
       }),
+      keepUnusedDataFor: 90,
       transformResponse: (response: GetBookSeriesResponse) => {
         const bookSeries = response.bookSeries;
         bookSeries.url = `${BASE_URL}?uid=${bookSeries.uid}`;

@@ -1,5 +1,11 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import './error.css';
-import { ErrorMessageProps } from '../../interfaces/interfaces';
+import { SerializedError } from '@reduxjs/toolkit/react';
+
+interface ErrorMessageProps {
+  error?: FetchBaseQueryError | SerializedError;
+  message?: string;
+}
 
 export default function ErrorMessage(props: ErrorMessageProps) {
   return (
